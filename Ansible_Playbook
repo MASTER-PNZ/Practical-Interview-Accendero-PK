@@ -1,0 +1,118 @@
+// An example of an Ansible playbook in YAML that starts an Nginx webserver:
+
+---
+
+- hosts: webservers
+  vars:
+    http_port: 80
+  tasks:
+  - name: ensure nginx is at the latest version
+    apt:
+      name: nginx
+      state: latest
+  - name: write the apache config file
+    template:
+      src: templates/nginx/default.j2
+      dest: /etc/nginx/sites-available/default
+    notify:
+    - restart nginx
+  - name: ensure nginx is running
+    service:
+      name: nginx
+      state: started
+  handlers:
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
+
+// An example of the inventory file using 2 web-servers. Targets which webservers to
+upload Nginx to.
+// filled in example web-servers:
+
+---
+
+  myhost.intra.com
+
+  [webservers]
+  ws1.internal.com
+  ws2.internal.com
+
+// Ansible config file example to:
+[defaults]
+inventory           = ./inventory
+library             = ./library
+filter_plugins      = ./filters
+roles_path          = ./roles
+callback_plugins    = ./callbacks
+
+remote_tmp     = $HOME/.ansible/tmp
+pattern        = *
+forks          = 16
+poll_interval  = 15
+transport      = smart
+remote_port    = 22
+# #module_lang    = C
+nocows         = 1
+
+# display_skipped_hosts=0
+
+# gathering = implicit
+# retry_files_enabled = False
+
+# # uncomment this to disable SSH key host checking
+host_key_checking = False
+
+# # what flags to pass to sudo
+# #sudo_flags = -H
+
+# # SSH timeout
+# timeout = 38
+
+remote_user = vagrant
+
+log_path = ~/.ansible/ansible.log
+executable = /bin/sh
+
+# # format of string {{ ansible_managed }} available within Jinja2
+# # templates indicates to users editing templates files will be replaced.
+# # replacing {file}, {host} and {uid} and strftime codes with proper values.
+# ansible_managed = Ansible managed: {file} modified on %Y-%m-%d %H:%M:%S by {uid} on {host}
+# #
+
+[privilege_escalation]
+become=True
+become_method=sudo
+become_user=root
+# #become_ask_pass=False
+
+[ssh_connection]
+pipelining = True
+control_path = /tmp/ansible-ssh-%%h-%%p-%%r
+# ssh_args = -F .ssh/config -o ControlMaster=auto -o ControlPersist=60m
+# scp_if_ssh = True
+
+
+// or simple command to use default configuration:
+ansible-config dump
+
+// auto-create template for Nginx webserver using Jinja:
+
+server {
+	listen {{ http_port }} default_server;
+	listen [::]:{{ http_port }} default_server;
+
+	root /var/www/html;
+
+	index index.html index.htm index.nginx-debian.html;
+
+	server_name _;
+
+	location / {
+		try_files $uri $uri/ =404;
+	}
+}
+
+// running playbook:
+
+ansible-playbook example.yml
