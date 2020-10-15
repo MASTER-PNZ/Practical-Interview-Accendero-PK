@@ -1,0 +1,3 @@
+// Create an AWS Fargate app using the service they provide.
+
+// Create a Codepipeline and tie it to your existing Repository on Github
