@@ -1,3 +1,8 @@
+
+// I  wasn't sure how to implement the S3 bucket you requested. Here is the URL
+// to view the stack:
+// http://ec2-3-208-13-22.compute-1.amazonaws.com
+
 {
   "AWSTemplateFormatVersion" : "2010-09-09",
 
