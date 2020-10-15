@@ -1,3 +1,5 @@
 // Create an AWS Fargate app using the service they provide.
 
-// Create a Codepipeline and tie it to your existing Repository on Github
+// Create a Codepipeline and tie it to your existing Repository on Github.
+
+// after it's built out deploying can be done by connecting via ssh to the Fargate app you established.

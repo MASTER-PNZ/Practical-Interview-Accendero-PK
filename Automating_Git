@@ -1,0 +1,35 @@
+
+
+//create repositories.
+
+touch demo.html
+echo "master" > demo.html
+git add .
+git commit -m "Init commit"
+git push origin master
+
+git branch test
+git checkout test
+echo "devel" > demo.html
+git add .
+git commit -m "Create test branch"
+git push origin test
+
+
+// Use AWS CodePipeline to create 2 EC2 instances
+// Create 2 EC2 Instances:
+// 1) One called 'Staging'
+// 2) One named 'Production'
+
+//Install CodeDeploy agent for automation:
+
+sudo yum update -y
+sudo yum install ruby wget -y
+cd /home/ec2-user
+wget https://bucket-name.s3.region-identifier.amazonaws.com/latest/install
+chmod +x ./install
+sudo ./install auto
+
+// create a CodeDeploy group using AWS that links to your EC2 instances.
+// Create code Pipeline using AWS and link to your GitHub repos 'master' & 'devel'
+//Deploy to each Instance to test.
