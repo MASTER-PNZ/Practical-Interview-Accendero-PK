@@ -16,3 +16,5 @@
  https://www.smartwavesa.com/blog-articles/ansible-101/
 
  https://gitlab.com/smartwavesa-community/devops/ansible
+
+https://medium.com/innovation-incubator/deploying-code-from-github-to-aws-ec2-with-codepipeline-4639e8fbba28

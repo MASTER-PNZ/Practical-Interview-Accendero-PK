@@ -1,3 +1,0 @@
-// Create a Code build pipe using 2 EC2 Instances:
-// 1) which pushes code/commits to a testing environment that is running on an EC2 instance.
-// 2) which pushes code/commits to a production environment that is running a separate EC2 insatnce.
